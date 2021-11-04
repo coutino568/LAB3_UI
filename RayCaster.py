@@ -1,4 +1,5 @@
 import pygame
+import pygame_menu
 
 from math import cos, sin, pi
 
@@ -148,6 +149,28 @@ class Raycaster(object):
             self.screen.set_at( (halfWidth+1, i), pygame.Color('black'))
             self.screen.set_at( (halfWidth-1, i), pygame.Color('black'))
 
+map = "map2.txt"
+
+def set_difficulty(value, difficulty):
+    # Do the job here !
+    print("SET LEVEL to"+ str(difficulty))
+    if (difficulty==1):
+        map="map2.txt"
+    else:
+        map ="map.txt"
+    rCaster.load_map(map)
+
+
+def start_the_game():
+    print("Start the game !!")
+    #screen2 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.HWACCEL )
+    menu.disable()
+    
+
+
+    
+   
+
 
 width = 1000
 height = 500
@@ -156,14 +179,29 @@ pygame.init()
 screen = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.HWACCEL )
 screen.set_alpha(None)
 
+menu = pygame_menu.Menu('MAIN MENU', 1000, 500,
+                       theme=pygame_menu.themes.THEME_DARK)
+
+menu.add.selector('Level :', [('1', 1), ('2', 2)], onchange=set_difficulty)
+menu.add.button('Play', start_the_game)
+menu.add.button('Quit', pygame_menu.events.EXIT)
+
 isRunning = True
 isPaused= False
 
 rCaster = Raycaster(screen)
-rCaster.load_map("map.txt")
+rCaster.load_map(map)
 
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("Arial", 25)
+
+
+menu.mainloop(screen)
+#menu.mainloop(screen,None,False)
+
+
+
+
 
 def updateFPS():
     fps = str(int(clock.get_fps()))
