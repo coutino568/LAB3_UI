@@ -1,10 +1,12 @@
 import pygame
 import pygame_menu
-
+from pygame import mixer
 
 pygame.init()
 surface = pygame.display.set_mode((600, 400))
 
+mixer.music.load('music.mp3')
+mixer.music.play()
 
 def set_difficulty(value, difficulty):
     # Do the job here !
